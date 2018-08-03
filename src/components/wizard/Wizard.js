@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
+import axios from 'axios';
 
 export default class Dashboard extends Component {
   constructor() {
@@ -15,41 +16,45 @@ export default class Dashboard extends Component {
     this.addressChange = this.addressChange.bind(this);
     this.cityChange = this.cityChange.bind(this);
     this.stateChange = this.stateChange.bind(this);
-    this.zipChange = this.nameChange.bind(this);
+    this.zipChange = this.zipChange.bind(this);
   }
 
   nameChange(e) {
     this.setState({
       name: e.target.value
     })
-    console.log('this.state', this.state)
   }
   addressChange(e) {
     this.setState({
       address: e.target.value
     })
-    console.log('this.state', this.state)
   }
   cityChange(e) {
     this.setState({
       city: e.target.value
     })
-    console.log('this.state', this.state)
   }
   stateChange(e) {
     this.setState({
       state: e.target.value
     })
-    console.log('this.state', this.state)
   }
   zipChange(e) {
     this.setState({
       zip: e.target.value
     })
-    console.log('this.state', this.state)
   }
-  postNewHouse() {
-    //does something
+  postNewHouse = () => {
+    let houseToAdd = {
+      name: this.state.name,
+      address: this.state.address,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip
+    }
+    axios.post('http://localhost:4007/api/realestate/', {houseToAdd}).then(() => {
+      this.props.history.goBack()
+    })
   }
   render() {
     return (
@@ -75,8 +80,9 @@ export default class Dashboard extends Component {
           </div>
           <div>
             Zip
-          <input onChange={this.zipChange} type="number"></input>
+          <input onChange={this.zipChange}></input>
           </div>
+          <button onClick={this.postNewHouse}>Complete</button>
         </form>
       </div>
     )

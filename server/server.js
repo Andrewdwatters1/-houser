@@ -13,7 +13,8 @@ massive(process.env.CONNECTION_STRING).then(db => {
 })
 
 app.get('/api/realestate/', rc.getAllHouses);
-// app.post();
+app.post('/api/realestate/', rc.addHouse);
+app.delete('/api/realestate/:id', rc.deleteHouse);
 // app.put();
 // app.delete();
 

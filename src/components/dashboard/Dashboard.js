@@ -10,49 +10,54 @@ export default class Dashboard extends Component {
       houses: [],
     }
   }
-  getAllHouses() {
+  getAllHouses = () => {
     axios.get('http://localhost:4007/api/realestate/').then((result) => {
-    this.setState({
+      this.setState({
         houses: result.data
       })
     }).catch((error) => {
       console.log('caught error on frontend ', error)
     })
   }
-  deleteHouse() {
-    //does something
+  deleteHouse = (id) => {
+    axios.delete(`http://localhost:4007/api/realestate/${id}`).then((result) => {
+      this.setState({
+        houses: result.data
+      })
+    })
   }
 
   componentDidMount() {
     this.getAllHouses();
   }
   render() {
-    console.log(this.state.houses);
     let allHouses = this.state.houses.map((e, i) => {
       return (
-        <House key={i} name={e.name} address={e.address} city={e.city} state={e.state} zip={e.zip}>
-          <div>
-            <p>Property Name: {e.name}</p>
-            <p>Address: {e.address}</p>
-            <p>City: {e.city}</p>
-            <p>State: {e.state}</p>
-            <p>Zip: {e.zip}</p>
-            {this.props.children}
-          </div>
-        </House>
-      )
-    })
-    if(this.state.houses.length) {
+        <div>
+          <House
+            key={i}
+            name={e.name}
+            address={e.address}
+            city={e.city}
+            state={e.state}
+            zip={e.zip}>
+          </House>
+          <button onClick={() => this.deleteHouse(e.id)}>Delete Property</button>
+        </div>
+
+            )
+          })
+    if (this.state.houses.length) {
       return (
         <div>
-          Dashboard Component
+              Dashboard Component
           <Link to="/wizard"><button>Add New Property</button></Link>
-          {allHouses}
-        </div>
-      )
+              {allHouses}
+            </div>
+            )
     } else {
       return <p>Please wait... loading</p>
-    }
-      
-  }
+            }
+        
+          }
 }
