@@ -50,8 +50,14 @@ class StepOne extends Component {
     })
   }
 
+  // componentDidUpdate() {
+  //   this.setState({
+  //     state: this.props.history
+  //   })
+  // }
+
   render() {
-    console.log(this.props);
+    console.log(this.props.history);
     return (
       <div>
         StepOne

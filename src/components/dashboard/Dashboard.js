@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import House from '../house/House';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   constructor() {
     super()
     this.state = {
@@ -31,6 +32,7 @@ export default class Dashboard extends Component {
     this.getAllHouses();
   }
   render() {
+    console.log(this.props)
     let allHouses = this.state.houses.map((e, i) => {
       return (
         <div>
@@ -45,19 +47,26 @@ export default class Dashboard extends Component {
           <button onClick={() => this.deleteHouse(e.id)}>Delete Property</button>
         </div>
 
-            )
-          })
+      )
+    })
     if (this.state.houses.length) {
       return (
         <div>
-              Dashboard Component
+          Dashboard Component
           <Link to="/wizard/step1"><button>Add New Property</button></Link>
-              {allHouses}
-            </div>
-            )
+          {allHouses}
+        </div>
+      )
     } else {
       return <p>Please wait... loading</p>
-            }
-        
-          }
+    }
+
+  }
 }
+
+function mapStateToProps(state) {
+  return {
+    houses: state.houses
+  }
+}
+export default connect(mapStateToProps)(Dashboard);

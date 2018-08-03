@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {stepThree} from './reducer';
 
 
-export default class StepThree extends Component {
+class StepThree extends Component {
   constructor() {
     super()
     this.state = {
@@ -40,16 +41,24 @@ export default class StepThree extends Component {
   }
 
   render() {
-    console.log(this);
     return (
       <div>
         StepThree
         <Link to="/"><button>Cancel</button></Link>
         <input onChange={this.mortChange}></input>
         <input onChange={this.rentChange}></input>
-        <Link to="/wizard/step2"><button>Previous Step</button></Link>
+        <Link to="/wizard/step2"><button onClick={() => stepThree(this.state)}>Previous Step</button></Link>
         <Link to="/"><button onClick={this.postNewHouse}>Complete</button></Link>
       </div>
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    mort: state.mort,
+    rent: state.rent
+  }
+}
+
+export default connect(mapStateToProps, {stepThree})(StepThree);
